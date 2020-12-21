@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.hardware.Camera
 import android.hardware.camera2.CameraManager
 import android.os.Build
 import android.os.Bundle
@@ -33,6 +34,7 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Suppress("DEPRECATION")
 class ScanFragment : Fragment(R.layout.fragment_scan) {
 
     private val REQUEST_CAMERA = 1001
@@ -49,12 +51,11 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
     //flash
     private lateinit var imgFlash: ImageView
-    private var cameraManager: CameraManager? = null
+    private var camera: Camera? = null
     private var isFlash = false
 
     private var cameraID: Int = CameraSource.CAMERA_FACING_BACK
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -76,23 +77,48 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         }
 
         imgFlash.setOnClickListener {
-            val camaraId = cameraManager!!.cameraIdList[0]
-            cameraManager?.setTorchMode(camaraId, false)
+            camera = getCamera(cameraSource!!)
+            try {
+                val param = camera?.parameters
+                param?.flashMode = if (!isFlash) Camera.Parameters.FLASH_MODE_TORCH else Camera.Parameters.FLASH_MODE_OFF
+                camera?.parameters = param
+                isFlash = !isFlash
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
+    }
+
+    private fun getCamera(cameraSource: CameraSource): Camera? {
+        val declaredFields = CameraSource::class.java.declaredFields
+        for (field in declaredFields) {
+            if (field.type == Camera::class.java) {
+                field.isAccessible = true
+                try {
+                    val camera = field[cameraSource] as Camera
+                    return if (camera != null) {
+                        camera
+                    } else null
+                } catch (e: IllegalAccessException) {
+                    e.printStackTrace()
+                }
+                break
+            }
+        }
+        return null
     }
 
     private fun initView(view: View) {
         cameraPreview = view.findViewById(R.id.surfaceView)
-        cameraManager = context?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
         imgCamera = view.findViewById(R.id.img_camera)
         imgFlash = view.findViewById(R.id.img_flash)
     }
 
     private fun checkPermission() {
         if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
+                        requireContext(),
+                        Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED
         ) {
             requestPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA)
             return
@@ -111,9 +137,9 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             override fun surfaceCreated(surfaceHolder: SurfaceHolder) {
                 try {
                     if (ActivityCompat.checkSelfPermission(
-                            context!!,
-                            Manifest.permission.CAMERA
-                        ) != PackageManager.PERMISSION_GRANTED
+                                    context!!,
+                                    Manifest.permission.CAMERA
+                            ) != PackageManager.PERMISSION_GRANTED
                     ) {
                         return
                     }
@@ -153,12 +179,12 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 //
                             //Dialog
                             val builder = AlertDialog.Builder(
-                                activity
+                                    activity
                             )
                             builder.setTitle("Result: ")
                             builder.setMessage(barcode?.valueAt(0)!!.rawValue)
                             builder.setPositiveButton(
-                                "OK"
+                                    "OK"
                             ) { dialogInterface, i -> isBarcodeDetector = true }
                             builder.setCancelable(false) //chỉ click OK mới đóng dialog
                             val alertDialog = builder.create()
@@ -184,9 +210,9 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String?>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<String?>,
+            grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CAMERA) {
@@ -209,9 +235,9 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             .build()
         try {
             if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.CAMERA
-                ) != PackageManager.PERMISSION_GRANTED
+                            requireContext(),
+                            Manifest.permission.CAMERA
+                    ) != PackageManager.PERMISSION_GRANTED
             ) {
                 return
             }
@@ -242,12 +268,12 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
                             //Dialog
                             val builder = AlertDialog.Builder(
-                                activity
+                                    activity
                             )
                             builder.setTitle("Result:")
                             builder.setMessage(barcode?.valueAt(0)!!.rawValue)
                             builder.setPositiveButton(
-                                "OK"
+                                    "OK"
                             ) { dialogInterface, i -> isBarcodeDetector = true }
                             builder.setCancelable(false) //chỉ click OK mới đóng dialog
                             val alertDialog = builder.create()
@@ -262,8 +288,8 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
     private fun convertImageToByteArray(myImage: Int): ByteArray? {
         val image = BitmapFactory.decodeResource(
-            resources,
-            myImage
+                resources,
+                myImage
         )
 
         // convert bitmap to byte
