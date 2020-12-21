@@ -27,31 +27,31 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/img_type_qr"
+            android:id="@+id/img_type_scan"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"/>
 
         <TextView
-            android:id="@+id/txt_text"
+            android:id="@+id/txt_text_qr_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/img_type_qr"
+            android:layout_toRightOf="@+id/img_type_scan"
             android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/txt_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/img_type_qr"
-            android:layout_below="@id/txt_text"/>
+            android:layout_toRightOf="@+id/img_type_scan"
+            android:layout_below="@id/txt_text_qr_code"/>
 
         <TextView
             android:id="@+id/txt_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/txt_date"
-            android:layout_below="@+id/txt_text"
+            android:layout_below="@+id/txt_text_qr_code"
             android:layout_marginLeft="10dp"/>
 
     </RelativeLayout>

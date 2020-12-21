@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout
+    android:id="@+id/swipe_qr_code"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <!--swipeLayout-->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_delete_qr_code"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_delete"
+            android:layout_centerVertical="true"/>
+
+        <Button
+            android:id="@+id/btn_share_qr_code"
+            android:layout_toRightOf="@+id/btn_delete_qr_code"
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_share"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <!---->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_qrcode"
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/img_qrcode"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:id="@+id/txt_text_qr_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/type_qrcode_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_text_qr_code"
+                android:layout_marginTop="10dp"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</com.daimajia.swipe.SwipeLayout>

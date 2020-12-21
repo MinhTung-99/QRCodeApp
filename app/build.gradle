@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -55,4 +56,6 @@ dependencies {
     //swipe_layout
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
 
+    //create QR code
+    implementation 'com.google.zxing:core:3.2.1'
 }

@@ -18,5 +18,26 @@
     <fragment
         android:id="@+id/qrCodeFragment"
         android:name="com.qrcodeapp.fragment.QrCodeFragment"
-        android:label="QrCodeFragment" />
+        android:label="QrCodeFragment" >
+        <action
+            android:id="@+id/action_qrCodeFragment_to_typeQrCodeFragment"
+            app:destination="@id/typeQrCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/typeQrCodeFragment"
+        android:name="com.qrcodeapp.fragment.TypeQrCodeFragment"
+        android:label="TypeQrCodeFragment" >
+        <action
+            android:id="@+id/action_typeQrCodeFragment_to_createQrCodeFragment"
+            app:destination="@id/createQrCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createQrCodeFragment"
+        android:name="com.qrcodeapp.fragment.CreateQrCodeFragment"
+        android:label="CreateQrCodeFragment" >
+
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
 </navigation>

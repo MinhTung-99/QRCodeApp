@@ -3,13 +3,10 @@ package com.qrcodeapp.fragment
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.hardware.Camera
-import android.hardware.camera2.CameraManager
-import android.os.Build
 import android.os.Bundle
 import android.util.SparseArray
 import android.view.SurfaceHolder
@@ -17,7 +14,6 @@ import android.view.SurfaceView
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.vision.CameraSource
@@ -34,7 +30,7 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION") //use for Camera
 class ScanFragment : Fragment(R.layout.fragment_scan) {
 
     private val REQUEST_CAMERA = 1001
@@ -95,10 +91,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             if (field.type == Camera::class.java) {
                 field.isAccessible = true
                 try {
-                    val camera = field[cameraSource] as Camera
-                    return if (camera != null) {
-                        camera
-                    } else null
+                    return field[cameraSource] as Camera
                 } catch (e: IllegalAccessException) {
                     e.printStackTrace()
                 }
@@ -185,7 +178,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
                             builder.setMessage(barcode?.valueAt(0)!!.rawValue)
                             builder.setPositiveButton(
                                     "OK"
-                            ) { dialogInterface, i -> isBarcodeDetector = true }
+                            ) { _, _ -> isBarcodeDetector = true }
                             builder.setCancelable(false) //chỉ click OK mới đóng dialog
                             val alertDialog = builder.create()
                             alertDialog.show()
@@ -274,7 +267,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
                             builder.setMessage(barcode?.valueAt(0)!!.rawValue)
                             builder.setPositiveButton(
                                     "OK"
-                            ) { dialogInterface, i -> isBarcodeDetector = true }
+                            ) { _, _ -> isBarcodeDetector = true }
                             builder.setCancelable(false) //chỉ click OK mới đóng dialog
                             val alertDialog = builder.create()
                             alertDialog.show()
