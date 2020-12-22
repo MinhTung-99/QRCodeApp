@@ -13,14 +13,13 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
     private lateinit var switchSound: SwitchCompat
     private lateinit var switchVibrate: SwitchCompat
     private lateinit var switchHistory: SwitchCompat
-    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initView(view)
 
-        getSetting()
+        getSetting(requireContext())
 
         switchSound.isChecked = isSound
         switchVibrate.isChecked = isVibrate
@@ -56,18 +55,7 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
         editor.commit()
     }
 
-    fun getSetting() {
-        sharedPreferences = context?.getSharedPreferences(myPreferences, Context.MODE_PRIVATE)!!
-        if (sharedPreferences.contains(sound)) {
-            isSound = sharedPreferences.getBoolean(sound, true)
-        }
-        if (sharedPreferences.contains(vibrate)) {
-            isVibrate = sharedPreferences.getBoolean(vibrate, true)
-        }
-        if (sharedPreferences.contains(history)) {
-            isHistory = sharedPreferences.getBoolean(history, true)
-        }
-    }
+
 
     companion object{
         var isSound = true
@@ -78,5 +66,19 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
         private val sound = "soundKey"
         private val vibrate = "vibrateKey"
         private val history = "historyKey"
+        private lateinit var sharedPreferences: SharedPreferences
+
+        fun getSetting(context: Context) {
+            sharedPreferences = context?.getSharedPreferences(myPreferences, Context.MODE_PRIVATE)!!
+            if (sharedPreferences.contains(sound)) {
+                isSound = sharedPreferences.getBoolean(sound, true)
+            }
+            if (sharedPreferences.contains(vibrate)) {
+                isVibrate = sharedPreferences.getBoolean(vibrate, true)
+            }
+            if (sharedPreferences.contains(history)) {
+                isHistory = sharedPreferences.getBoolean(history, true)
+            }
+        }
     }
 }

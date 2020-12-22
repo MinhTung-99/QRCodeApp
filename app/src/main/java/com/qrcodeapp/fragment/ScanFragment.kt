@@ -58,6 +58,8 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        SettingFragment.getSetting(requireContext())
+
         initView(view)
 
         checkPermission()
