@@ -3,11 +3,14 @@ package com.qrcodeapp.fragment
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.hardware.Camera
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Vibrator
 import android.util.SparseArray
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -156,20 +159,20 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
                     barcode = detections?.detectedItems
                     if (barcode != null && barcode?.size()!! > 0) {
                         if (isBarcodeDetector) {
-//                            if (SettingFragment.isHistory) {
+                            if (SettingFragment.isHistory) {
                             handleTypeQRCode(barcode?.valueAt(0)!!.valueFormat)
-//                            }
-//                            if (SettingFragment.isSound) {
-//                                val mediaPlayer: MediaPlayer =
-//                                    MediaPlayer.create(context, R.raw.beep)
-//                                mediaPlayer.start()
-//                            }
-//                            if (SettingFragment.isVibrate) {
-//                                val v =
-//                                    context!!.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-//                                v.vibrate(400)
-//                            }
-//
+                            }
+                            if (SettingFragment.isSound) {
+                                val mediaPlayer: MediaPlayer =
+                                    MediaPlayer.create(context, R.raw.beep)
+                                mediaPlayer.start()
+                            }
+                            if (SettingFragment.isVibrate) {
+                                val v =
+                                    context!!.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                                v.vibrate(400)
+                            }
+
                             //Dialog
                             val builder = AlertDialog.Builder(
                                     activity
@@ -245,19 +248,19 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
                     barcode = detections?.detectedItems
                     if (barcode != null && barcode?.size()!! > 0) {
                         if (isBarcodeDetector) {
-//                            if (SettingFragment.isHistory) {
-                            handleTypeQRCode(barcode?.valueAt(0)!!.valueFormat)
-//                            }
-//                            if (SettingFragment.isSound) {
-//                                val mediaPlayer: MediaPlayer =
-//                                    MediaPlayer.create(context, R.raw.beep)
-//                                mediaPlayer.start()
-//                            }
-//                            if (SettingFragment.isVibrate) {
-//                                val v =
-//                                    context!!.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-//                                v.vibrate(400)
-//                            }
+                            if (SettingFragment.isHistory) {
+                                handleTypeQRCode(barcode?.valueAt(0)!!.valueFormat)
+                            }
+                            if (SettingFragment.isSound) {
+                                val mediaPlayer: MediaPlayer =
+                                    MediaPlayer.create(context, R.raw.beep)
+                                mediaPlayer.start()
+                            }
+                            if (SettingFragment.isVibrate) {
+                                val v =
+                                    context!!.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                                v.vibrate(400)
+                            }
 
                             //Dialog
                             val builder = AlertDialog.Builder(
